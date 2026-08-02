@@ -243,7 +243,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      try_match_queue_entry: {
+        Args: { _allow_adjacent?: boolean; _entry_id: string }
+        Returns: string
+      }
     }
     Enums: {
       experience_level: "entry" | "mid" | "senior"
