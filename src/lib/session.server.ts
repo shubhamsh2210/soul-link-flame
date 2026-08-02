@@ -36,7 +36,16 @@ export function assertParticipant(session: SessionRow, userId: string) {
   }
 }
 
-export const NEXT_STATUS: Record<string, string> = {
+export type SessionStatus =
+  | "matched"
+  | "room_created"
+  | "round_1"
+  | "round_swap"
+  | "round_2"
+  | "ended"
+  | "no_show";
+
+export const NEXT_STATUS: Partial<Record<SessionStatus, SessionStatus>> = {
   matched: "room_created",
   room_created: "round_1",
   round_1: "round_swap",
@@ -44,25 +53,28 @@ export const NEXT_STATUS: Record<string, string> = {
   round_2: "ended",
 };
 
-const TIMESTAMP_FOR: Record<string, string | null> = {
+const TIMESTAMP_FOR: Partial<Record<SessionStatus, "started_at" | "round_swap_at" | "ended_at">> = {
   room_created: "started_at",
-  round_1: null,
   round_swap: "round_swap_at",
-  round_2: null,
   ended: "ended_at",
 };
 
 /** Server-authoritative transition. Only the documented next state is allowed. */
-export async function advance(sessionId: string, userId: string, expectedFrom: string) {
+export async function advance(sessionId: string, userId: string, expectedFrom: SessionStatus) {
   const db = await admin();
   const session = await loadSession(sessionId);
   assertParticipant(session, userId);
 
   if (session.status !== expectedFrom) return session; // already advanced by the peer
-  const next = NEXT_STATUS[session.status];
+  const next = NEXT_STATUS[expectedFrom];
   if (!next) throw new Error("Session already finished");
 
-  const patch: Record<string, unknown> = { status: next };
+  const patch: {
+    status: SessionStatus;
+    started_at?: string;
+    round_swap_at?: string;
+    ended_at?: string;
+  } = { status: next };
   const stamp = TIMESTAMP_FOR[next];
   if (stamp) patch[stamp] = new Date().toISOString();
 
@@ -78,6 +90,7 @@ export async function advance(sessionId: string, userId: string, expectedFrom: s
   if (next === "ended") await completeSession(session);
   return (data as SessionRow | null) ?? (await loadSession(sessionId));
 }
+
 
 async function completeSession(session: SessionRow) {
   const db = await admin();
