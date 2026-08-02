@@ -14,16 +14,254 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      feedback_reports: {
+        Row: {
+          ai_summary_text: string | null
+          communication_clarity_score: number | null
+          created_at: string
+          domain_depth_score: number | null
+          gaps: string[] | null
+          id: string
+          prioritization_score: number | null
+          rater_user_id: string | null
+          session_id: string
+          source: Database["public"]["Enums"]["feedback_source"]
+          stakeholder_awareness_score: number | null
+          strengths: string[] | null
+          structure_score: number | null
+          subject_user_id: string
+        }
+        Insert: {
+          ai_summary_text?: string | null
+          communication_clarity_score?: number | null
+          created_at?: string
+          domain_depth_score?: number | null
+          gaps?: string[] | null
+          id?: string
+          prioritization_score?: number | null
+          rater_user_id?: string | null
+          session_id: string
+          source: Database["public"]["Enums"]["feedback_source"]
+          stakeholder_awareness_score?: number | null
+          strengths?: string[] | null
+          structure_score?: number | null
+          subject_user_id: string
+        }
+        Update: {
+          ai_summary_text?: string | null
+          communication_clarity_score?: number | null
+          created_at?: string
+          domain_depth_score?: number | null
+          gaps?: string[] | null
+          id?: string
+          prioritization_score?: number | null
+          rater_user_id?: string | null
+          session_id?: string
+          source?: Database["public"]["Enums"]["feedback_source"]
+          stakeholder_awareness_score?: number | null
+          strengths?: string[] | null
+          structure_score?: number | null
+          subject_user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "feedback_reports_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "interview_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      interview_sessions: {
+        Row: {
+          created_at: string
+          ended_at: string | null
+          id: string
+          question_id: string | null
+          room_token_a: string | null
+          room_token_b: string | null
+          round_1_candidate_id: string | null
+          round_swap_at: string | null
+          scheduled_at: string | null
+          started_at: string | null
+          status: Database["public"]["Enums"]["session_status"]
+          track: string
+          user_a_id: string
+          user_b_id: string
+        }
+        Insert: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          question_id?: string | null
+          room_token_a?: string | null
+          room_token_b?: string | null
+          round_1_candidate_id?: string | null
+          round_swap_at?: string | null
+          scheduled_at?: string | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["session_status"]
+          track: string
+          user_a_id: string
+          user_b_id: string
+        }
+        Update: {
+          created_at?: string
+          ended_at?: string | null
+          id?: string
+          question_id?: string | null
+          room_token_a?: string | null
+          room_token_b?: string | null
+          round_1_candidate_id?: string | null
+          round_swap_at?: string | null
+          scheduled_at?: string | null
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["session_status"]
+          track?: string
+          user_a_id?: string
+          user_b_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "interview_sessions_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interview_sessions_user_a_id_fkey"
+            columns: ["user_a_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "interview_sessions_user_b_id_fkey"
+            columns: ["user_b_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          completed_sessions: number
+          created_at: string
+          credits_balance: number
+          display_name: string
+          experience_level: Database["public"]["Enums"]["experience_level"]
+          id: string
+          no_show_count: number
+          track: Database["public"]["Enums"]["track_type"]
+          trust_score: number
+        }
+        Insert: {
+          completed_sessions?: number
+          created_at?: string
+          credits_balance?: number
+          display_name: string
+          experience_level: Database["public"]["Enums"]["experience_level"]
+          id: string
+          no_show_count?: number
+          track: Database["public"]["Enums"]["track_type"]
+          trust_score?: number
+        }
+        Update: {
+          completed_sessions?: number
+          created_at?: string
+          credits_balance?: number
+          display_name?: string
+          experience_level?: Database["public"]["Enums"]["experience_level"]
+          id?: string
+          no_show_count?: number
+          track?: Database["public"]["Enums"]["track_type"]
+          trust_score?: number
+        }
+        Relationships: []
+      }
+      questions: {
+        Row: {
+          difficulty: Database["public"]["Enums"]["question_difficulty"]
+          id: string
+          prompt_text: string
+          track: string
+        }
+        Insert: {
+          difficulty?: Database["public"]["Enums"]["question_difficulty"]
+          id?: string
+          prompt_text: string
+          track: string
+        }
+        Update: {
+          difficulty?: Database["public"]["Enums"]["question_difficulty"]
+          id?: string
+          prompt_text?: string
+          track?: string
+        }
+        Relationships: []
+      }
+      queue_entries: {
+        Row: {
+          experience_level: string
+          id: string
+          joined_at: string
+          status: Database["public"]["Enums"]["queue_status"]
+          track: string
+          user_id: string
+        }
+        Insert: {
+          experience_level: string
+          id?: string
+          joined_at?: string
+          status?: Database["public"]["Enums"]["queue_status"]
+          track: string
+          user_id: string
+        }
+        Update: {
+          experience_level?: string
+          id?: string
+          joined_at?: string
+          status?: Database["public"]["Enums"]["queue_status"]
+          track?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "queue_entries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_session_participant: {
+        Args: { _session_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      experience_level: "entry" | "mid" | "senior"
+      feedback_source: "peer" | "ai"
+      question_difficulty: "easy" | "medium" | "hard"
+      queue_status: "waiting" | "matched" | "expired" | "cancelled"
+      session_status:
+        | "matched"
+        | "room_created"
+        | "round_1"
+        | "round_swap"
+        | "round_2"
+        | "ended"
+        | "no_show"
+      track_type: "pm" | "swe" | "consulting" | "sales" | "support"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +388,21 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      experience_level: ["entry", "mid", "senior"],
+      feedback_source: ["peer", "ai"],
+      question_difficulty: ["easy", "medium", "hard"],
+      queue_status: ["waiting", "matched", "expired", "cancelled"],
+      session_status: [
+        "matched",
+        "room_created",
+        "round_1",
+        "round_swap",
+        "round_2",
+        "ended",
+        "no_show",
+      ],
+      track_type: ["pm", "swe", "consulting", "sales", "support"],
+    },
   },
 } as const
