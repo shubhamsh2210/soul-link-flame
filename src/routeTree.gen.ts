@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedQueueRouteImport } from './routes/_authenticated/queue'
+import { Route as AuthenticatedFeedbackSessionIdRouteImport } from './routes/_authenticated/feedback.$sessionId'
 import { Route as AuthenticatedSessionSessionIdRouteImport } from './routes/_authenticated/session.$sessionId'
 import { Route as ApiPublicHooksNoShowSweepRouteImport } from './routes/api/public/hooks/no-show-sweep'
 
@@ -41,6 +42,12 @@ const AuthenticatedQueueRoute = AuthenticatedQueueRouteImport.update({
   path: '/queue',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFeedbackSessionIdRoute =
+  AuthenticatedFeedbackSessionIdRouteImport.update({
+    id: '/feedback/$sessionId',
+    path: '/feedback/$sessionId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSessionSessionIdRoute =
   AuthenticatedSessionSessionIdRouteImport.update({
     id: '/session/$sessionId',
@@ -59,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/queue': typeof AuthenticatedQueueRoute
+  '/feedback/$sessionId': typeof AuthenticatedFeedbackSessionIdRoute
   '/session/$sessionId': typeof AuthenticatedSessionSessionIdRoute
   '/api/public/hooks/no-show-sweep': typeof ApiPublicHooksNoShowSweepRoute
 }
@@ -67,6 +75,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/queue': typeof AuthenticatedQueueRoute
+  '/feedback/$sessionId': typeof AuthenticatedFeedbackSessionIdRoute
   '/session/$sessionId': typeof AuthenticatedSessionSessionIdRoute
   '/api/public/hooks/no-show-sweep': typeof ApiPublicHooksNoShowSweepRoute
 }
@@ -77,6 +86,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/queue': typeof AuthenticatedQueueRoute
+  '/_authenticated/feedback/$sessionId': typeof AuthenticatedFeedbackSessionIdRoute
   '/_authenticated/session/$sessionId': typeof AuthenticatedSessionSessionIdRoute
   '/api/public/hooks/no-show-sweep': typeof ApiPublicHooksNoShowSweepRoute
 }
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/onboarding'
     | '/queue'
+    | '/feedback/$sessionId'
     | '/session/$sessionId'
     | '/api/public/hooks/no-show-sweep'
   fileRoutesByTo: FileRoutesByTo
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/onboarding'
     | '/queue'
+    | '/feedback/$sessionId'
     | '/session/$sessionId'
     | '/api/public/hooks/no-show-sweep'
   id:
@@ -104,6 +116,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/onboarding'
     | '/_authenticated/queue'
+    | '/_authenticated/feedback/$sessionId'
     | '/_authenticated/session/$sessionId'
     | '/api/public/hooks/no-show-sweep'
   fileRoutesById: FileRoutesById
@@ -152,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedQueueRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/feedback/$sessionId': {
+      id: '/_authenticated/feedback/$sessionId'
+      path: '/feedback/$sessionId'
+      fullPath: '/feedback/$sessionId'
+      preLoaderRoute: typeof AuthenticatedFeedbackSessionIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/session/$sessionId': {
       id: '/_authenticated/session/$sessionId'
       path: '/session/$sessionId'
@@ -172,12 +192,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedQueueRoute: typeof AuthenticatedQueueRoute
+  AuthenticatedFeedbackSessionIdRoute: typeof AuthenticatedFeedbackSessionIdRoute
   AuthenticatedSessionSessionIdRoute: typeof AuthenticatedSessionSessionIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedQueueRoute: AuthenticatedQueueRoute,
+  AuthenticatedFeedbackSessionIdRoute: AuthenticatedFeedbackSessionIdRoute,
   AuthenticatedSessionSessionIdRoute: AuthenticatedSessionSessionIdRoute,
 }
 
