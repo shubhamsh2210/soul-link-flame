@@ -100,6 +100,7 @@ function SessionPage() {
         isRound1Candidate={data.isRound1Candidate}
         question={data.question}
         startedAt={data.session.startedAt}
+        roundSwapAt={data.session.roundSwapAt}
       />
       <RoomAudioRenderer />
     </LiveKitRoom>
@@ -113,6 +114,7 @@ function RoomStage({
   isRound1Candidate,
   question,
   startedAt,
+  roundSwapAt,
 }: {
   sessionId: string;
   status: Status;
@@ -120,6 +122,7 @@ function RoomStage({
   isRound1Candidate: boolean;
   question: { prompt_text: string; difficulty: string } | null;
   startedAt: string | null;
+  roundSwapAt: string | null;
 }) {
   const tracks = useTracks(
     [
@@ -162,7 +165,7 @@ function RoomStage({
     status === "round_1" ? isRound1Candidate : status === "round_2" ? !isRound1Candidate : false;
 
   const roundStart =
-    status === "round_1" ? startedAt : status === "round_2" ? startedAt : null;
+    status === "round_1" ? startedAt : status === "round_2" ? roundSwapAt : null;
   const remaining =
     roundStart && (status === "round_1" || status === "round_2")
       ? Math.max(0, ROUND_SECONDS - Math.floor((now - new Date(roundStart).getTime()) / 1000))
