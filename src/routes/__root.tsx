@@ -80,16 +80,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "PeerPrep — Peer mock interviews with AI feedback" },
+      { title: "PeerPrep — Live peer mock interviews with AI feedback" },
       {
         name: "description",
         content:
-          "Get matched with a peer, run reciprocal mock interviews, and receive a structured AI feedback report.",
+          "Get matched with a peer in your track, run two reciprocal 25-minute mock interviews, and receive a structured AI-scored feedback report.",
       },
-      { property: "og:title", content: "PeerPrep" },
-      { property: "og:description", content: "Peer mock interviews with structured AI feedback." },
+      { property: "og:title", content: "PeerPrep — Live peer mock interviews with AI feedback" },
+      { property: "og:description", content: "Get matched with a peer in your track, run two reciprocal 25-minute mock interviews, and receive a structured AI-scored feedback report." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "PeerPrep — Live peer mock interviews with AI feedback" },
+      { name: "twitter:description", content: "Get matched with a peer in your track, run two reciprocal 25-minute mock interviews, and receive a structured AI-scored feedback report." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6da41a78-ec9a-4aab-a35b-3d3fc3ab9ba6/id-preview-63d3d8da--070452d0-608c-45ee-b9a4-d883ec0d0d32.lovable.app-1785661640298.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/6da41a78-ec9a-4aab-a35b-3d3fc3ab9ba6/id-preview-63d3d8da--070452d0-608c-45ee-b9a4-d883ec0d0d32.lovable.app-1785661640298.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

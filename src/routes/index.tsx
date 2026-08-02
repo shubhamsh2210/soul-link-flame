@@ -12,11 +12,11 @@ export const Route = createFileRoute("/")({
         content:
           "Get matched with a peer in your track, run two reciprocal 25-minute mock interviews, and receive a structured AI-scored feedback report.",
       },
-      { property: "og:title", content: "PeerPrep — Live peer mock interviews" },
+      { property: "og:title", content: "PeerPrep — Live peer mock interviews with AI feedback" },
       {
         property: "og:description",
         content:
-          "Matched practice interviews with reciprocal roles, peer scoring and an AI feedback report across five dimensions.",
+          "Get matched with a peer in your track, run two reciprocal 25-minute mock interviews, and receive a structured AI-scored feedback report.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
