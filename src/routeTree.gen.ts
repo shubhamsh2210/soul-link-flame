@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedQueueRouteImport } from './routes/_authenticated/queue'
 import { Route as AuthenticatedSessionSessionIdRouteImport } from './routes/_authenticated/session.$sessionId'
+import { Route as ApiPublicHooksNoShowSweepRouteImport } from './routes/api/public/hooks/no-show-sweep'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,12 @@ const AuthenticatedSessionSessionIdRoute =
     path: '/session/$sessionId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicHooksNoShowSweepRoute =
+  ApiPublicHooksNoShowSweepRouteImport.update({
+    id: '/api/public/hooks/no-show-sweep',
+    path: '/api/public/hooks/no-show-sweep',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/queue': typeof AuthenticatedQueueRoute
   '/session/$sessionId': typeof AuthenticatedSessionSessionIdRoute
+  '/api/public/hooks/no-show-sweep': typeof ApiPublicHooksNoShowSweepRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -60,6 +68,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/queue': typeof AuthenticatedQueueRoute
   '/session/$sessionId': typeof AuthenticatedSessionSessionIdRoute
+  '/api/public/hooks/no-show-sweep': typeof ApiPublicHooksNoShowSweepRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,12 +78,25 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/queue': typeof AuthenticatedQueueRoute
   '/_authenticated/session/$sessionId': typeof AuthenticatedSessionSessionIdRoute
+  '/api/public/hooks/no-show-sweep': typeof ApiPublicHooksNoShowSweepRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/onboarding' | '/queue' | '/session/$sessionId'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/queue'
+    | '/session/$sessionId'
+    | '/api/public/hooks/no-show-sweep'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/onboarding' | '/queue' | '/session/$sessionId'
+  to:
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/queue'
+    | '/session/$sessionId'
+    | '/api/public/hooks/no-show-sweep'
   id:
     | '__root__'
     | '/'
@@ -83,12 +105,14 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/_authenticated/queue'
     | '/_authenticated/session/$sessionId'
+    | '/api/public/hooks/no-show-sweep'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiPublicHooksNoShowSweepRoute: typeof ApiPublicHooksNoShowSweepRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -135,6 +159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSessionSessionIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/hooks/no-show-sweep': {
+      id: '/api/public/hooks/no-show-sweep'
+      path: '/api/public/hooks/no-show-sweep'
+      fullPath: '/api/public/hooks/no-show-sweep'
+      preLoaderRoute: typeof ApiPublicHooksNoShowSweepRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -157,6 +188,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiPublicHooksNoShowSweepRoute: ApiPublicHooksNoShowSweepRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
