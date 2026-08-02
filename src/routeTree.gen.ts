@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedQueueRouteImport } from './routes/_authenticated/queue'
 import { Route as AuthenticatedFeedbackSessionIdRouteImport } from './routes/_authenticated/feedback.$sessionId'
+import { Route as AuthenticatedReportSessionIdRouteImport } from './routes/_authenticated/report.$sessionId'
 import { Route as AuthenticatedSessionSessionIdRouteImport } from './routes/_authenticated/session.$sessionId'
 import { Route as ApiPublicHooksNoShowSweepRouteImport } from './routes/api/public/hooks/no-show-sweep'
 
@@ -48,6 +49,12 @@ const AuthenticatedFeedbackSessionIdRoute =
     path: '/feedback/$sessionId',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReportSessionIdRoute =
+  AuthenticatedReportSessionIdRouteImport.update({
+    id: '/report/$sessionId',
+    path: '/report/$sessionId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSessionSessionIdRoute =
   AuthenticatedSessionSessionIdRouteImport.update({
     id: '/session/$sessionId',
@@ -67,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/queue': typeof AuthenticatedQueueRoute
   '/feedback/$sessionId': typeof AuthenticatedFeedbackSessionIdRoute
+  '/report/$sessionId': typeof AuthenticatedReportSessionIdRoute
   '/session/$sessionId': typeof AuthenticatedSessionSessionIdRoute
   '/api/public/hooks/no-show-sweep': typeof ApiPublicHooksNoShowSweepRoute
 }
@@ -76,6 +84,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/queue': typeof AuthenticatedQueueRoute
   '/feedback/$sessionId': typeof AuthenticatedFeedbackSessionIdRoute
+  '/report/$sessionId': typeof AuthenticatedReportSessionIdRoute
   '/session/$sessionId': typeof AuthenticatedSessionSessionIdRoute
   '/api/public/hooks/no-show-sweep': typeof ApiPublicHooksNoShowSweepRoute
 }
@@ -87,6 +96,7 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/queue': typeof AuthenticatedQueueRoute
   '/_authenticated/feedback/$sessionId': typeof AuthenticatedFeedbackSessionIdRoute
+  '/_authenticated/report/$sessionId': typeof AuthenticatedReportSessionIdRoute
   '/_authenticated/session/$sessionId': typeof AuthenticatedSessionSessionIdRoute
   '/api/public/hooks/no-show-sweep': typeof ApiPublicHooksNoShowSweepRoute
 }
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/queue'
     | '/feedback/$sessionId'
+    | '/report/$sessionId'
     | '/session/$sessionId'
     | '/api/public/hooks/no-show-sweep'
   fileRoutesByTo: FileRoutesByTo
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/queue'
     | '/feedback/$sessionId'
+    | '/report/$sessionId'
     | '/session/$sessionId'
     | '/api/public/hooks/no-show-sweep'
   id:
@@ -117,6 +129,7 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/_authenticated/queue'
     | '/_authenticated/feedback/$sessionId'
+    | '/_authenticated/report/$sessionId'
     | '/_authenticated/session/$sessionId'
     | '/api/public/hooks/no-show-sweep'
   fileRoutesById: FileRoutesById
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFeedbackSessionIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/report/$sessionId': {
+      id: '/_authenticated/report/$sessionId'
+      path: '/report/$sessionId'
+      fullPath: '/report/$sessionId'
+      preLoaderRoute: typeof AuthenticatedReportSessionIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/session/$sessionId': {
       id: '/_authenticated/session/$sessionId'
       path: '/session/$sessionId'
@@ -193,6 +213,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedQueueRoute: typeof AuthenticatedQueueRoute
   AuthenticatedFeedbackSessionIdRoute: typeof AuthenticatedFeedbackSessionIdRoute
+  AuthenticatedReportSessionIdRoute: typeof AuthenticatedReportSessionIdRoute
   AuthenticatedSessionSessionIdRoute: typeof AuthenticatedSessionSessionIdRoute
 }
 
@@ -200,6 +221,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedQueueRoute: AuthenticatedQueueRoute,
   AuthenticatedFeedbackSessionIdRoute: AuthenticatedFeedbackSessionIdRoute,
+  AuthenticatedReportSessionIdRoute: AuthenticatedReportSessionIdRoute,
   AuthenticatedSessionSessionIdRoute: AuthenticatedSessionSessionIdRoute,
 }
 
