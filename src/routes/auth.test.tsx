@@ -1,3 +1,4 @@
+import type React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -26,10 +27,11 @@ vi.mock("@/integrations/lovable/index", () => ({
 }));
 
 const { Route } = await import("@/routes/auth");
+const Page = (Route as unknown as { component: React.ComponentType }).component;
 
 describe("auth screen smoke", () => {
   it("renders the sign-in form", async () => {
-    renderWithQuery(<Route.component />);
+    renderWithQuery(<Page />);
     expect(await screen.findByRole("heading", { name: /welcome back/i })).toBeInTheDocument();
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
@@ -37,7 +39,7 @@ describe("auth screen smoke", () => {
 
   it("signs in with email and password", async () => {
     const user = userEvent.setup();
-    renderWithQuery(<Route.component />);
+    renderWithQuery(<Page />);
     await user.type(screen.getByLabelText(/email/i), "peer@example.com");
     await user.type(screen.getByLabelText(/password/i), "hunter2!");
     await user.click(screen.getByRole("button", { name: /^sign in$/i }));
@@ -52,7 +54,7 @@ describe("auth screen smoke", () => {
 
   it("starts Google OAuth through the Lovable broker", async () => {
     const user = userEvent.setup();
-    renderWithQuery(<Route.component />);
+    renderWithQuery(<Page />);
     await user.click(screen.getByRole("button", { name: /continue with google/i }));
     await waitFor(() => expect(h.signInWithOAuth).toHaveBeenCalledWith("google", expect.anything()));
   });

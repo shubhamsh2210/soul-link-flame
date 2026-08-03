@@ -1,3 +1,4 @@
+import type React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -51,10 +52,11 @@ vi.mock("@/lib/queue.functions", () => ({
 }));
 
 const { Route } = await import("@/routes/_authenticated/queue");
+const Page = (Route as unknown as { component: React.ComponentType }).component;
 
 describe("queue screen smoke", () => {
   it("shows the profile track and live waiting count", async () => {
-    renderWithQuery(<Route.component />);
+    renderWithQuery(<Page />);
     expect(await screen.findByRole("heading", { name: /ready for a round/i })).toBeInTheDocument();
     expect(screen.getByText(/product management/i)).toBeInTheDocument();
     await waitFor(() => expect(h.getQueueStats).toHaveBeenCalledWith({ data: { track: "pm" } }));
@@ -63,7 +65,7 @@ describe("queue screen smoke", () => {
 
   it("joins the queue and switches to the waiting state", async () => {
     const user = userEvent.setup();
-    renderWithQuery(<Route.component />);
+    renderWithQuery(<Page />);
     await user.click(await screen.findByRole("button", { name: /join queue/i }));
 
     await waitFor(() =>
