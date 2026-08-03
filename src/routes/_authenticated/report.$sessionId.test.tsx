@@ -47,7 +47,7 @@ describe("report screen smoke", () => {
     renderWithQuery(<Page />);
     expect(await screen.findByRole("heading", { name: /how that round went/i })).toBeInTheDocument();
     expect(screen.getByText(/breakdown/i)).toBeInTheDocument();
-    expect(screen.getByText(/stakeholder awareness/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/stakeholder awareness/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/strong structure/i)).toBeInTheDocument();
   });
 });

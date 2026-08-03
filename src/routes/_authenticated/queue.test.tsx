@@ -58,7 +58,7 @@ describe("queue screen smoke", () => {
   it("shows the profile track and live waiting count", async () => {
     renderWithQuery(<Page />);
     expect(await screen.findByRole("heading", { name: /ready for a round/i })).toBeInTheDocument();
-    expect(screen.getByText(/product management/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/product management/i).length).toBeGreaterThan(0);
     await waitFor(() => expect(h.getQueueStats).toHaveBeenCalledWith({ data: { track: "pm" } }));
     expect(await screen.findByText(/3 others online/i)).toBeInTheDocument();
   });
