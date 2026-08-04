@@ -104,7 +104,7 @@ describe("AI feedback generation", () => {
     expect(result).toEqual({ generated: true });
     expect(fetchMock).toHaveBeenCalledTimes(2);
 
-    const [url, init] = fetchMock.mock.calls[0];
+    const [url, init] = fetchMock.mock.calls[0]!;
     expect(url).toBe("https://ai.gateway.lovable.dev/v1/chat/completions");
     expect((init.headers as Record<string, string>)["Lovable-API-Key"]).toBe("test-key");
 
@@ -139,6 +139,6 @@ describe("AI feedback generation", () => {
     });
 
     expect(out.ai_summary_text).toBe(aiPayload.ai_summary_text);
-    expect(fetchMock.mock.calls[0][0]).toBe("https://api.openai.com/v1/chat/completions");
+    expect(fetchMock.mock.calls[0]![0]).toBe("https://api.openai.com/v1/chat/completions");
   });
 });
