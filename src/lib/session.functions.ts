@@ -34,3 +34,11 @@ export const checkNoShow = createServerFn({ method: "POST" })
     const { runNoShowCheck } = await import("./no-show.server");
     return runNoShowCheck(data.sessionId, context.userId);
   });
+
+export const getSessionPeer = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: unknown) => sessionInput.parse(input))
+  .handler(async ({ data, context }) => {
+    const { loadPeerName } = await import("./session.server");
+    return { peerName: await loadPeerName(data.sessionId, context.userId) };
+  });

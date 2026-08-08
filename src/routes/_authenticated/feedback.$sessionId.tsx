@@ -1,8 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { submitFeedback } from "@/lib/feedback.functions";
+import { getSessionPeer } from "@/lib/session.functions";
+
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { AppHeader } from "@/components/AppHeader";
@@ -42,25 +43,17 @@ function FeedbackPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const { data: auth } = await supabase.auth.getUser();
-      if (!auth.user) return;
-      const { data: session } = await supabase
-        .from("interview_sessions")
-        .select("user_a_id,user_b_id")
-        .eq("id", sessionId)
-        .maybeSingle();
-      if (!session) return;
-      const peerId =
-        session.user_a_id === auth.user.id ? session.user_b_id : session.user_a_id;
-      const { data: p } = await supabase
-        .from("profiles")
-        .select("display_name")
-        .eq("id", peerId)
-        .maybeSingle();
-      if (p?.display_name) setPeerName(p.display_name);
-    })();
+    let cancelled = false;
+    getSessionPeer({ data: { sessionId } })
+      .then((res) => {
+        if (!cancelled && res.peerName) setPeerName(res.peerName);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
   }, [sessionId]);
+
 
   const toLines = (v: string) =>
     v
