@@ -70,8 +70,19 @@ function QueuePage() {
         .limit(1)
         .maybeSingle();
       if (existing) setEntryId(existing.id);
+
+      // Resume an interview that is still in progress.
+      const { data: live } = await supabase
+        .from("interview_sessions")
+        .select("id")
+        .in("status", ["matched", "room_created", "round_1", "round_swap", "round_2"])
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (live) setActiveSessionId(live.id);
     })();
   }, [navigate]);
+
 
   const refreshStats = useCallback(async () => {
     if (!profile) return;
