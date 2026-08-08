@@ -42,25 +42,17 @@ function FeedbackPage() {
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const { data: auth } = await supabase.auth.getUser();
-      if (!auth.user) return;
-      const { data: session } = await supabase
-        .from("interview_sessions")
-        .select("user_a_id,user_b_id")
-        .eq("id", sessionId)
-        .maybeSingle();
-      if (!session) return;
-      const peerId =
-        session.user_a_id === auth.user.id ? session.user_b_id : session.user_a_id;
-      const { data: p } = await supabase
-        .from("profiles")
-        .select("display_name")
-        .eq("id", peerId)
-        .maybeSingle();
-      if (p?.display_name) setPeerName(p.display_name);
-    })();
+    let cancelled = false;
+    getSessionPeer({ data: { sessionId } })
+      .then((res) => {
+        if (!cancelled && res.peerName) setPeerName(res.peerName);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
   }, [sessionId]);
+
 
   const toLines = (v: string) =>
     v
