@@ -35,6 +35,8 @@ function QueuePage() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [entryId, setEntryId] = useState<string | null>(null);
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+
   const [waiting, setWaiting] = useState(0);
   const [elapsed, setElapsed] = useState(0);
   const [busy, setBusy] = useState(false);
