@@ -204,6 +204,24 @@ function QueuePage() {
     <div className="bg-hero min-h-screen">
       <AppHeader />
       <main className="mx-auto max-w-3xl px-6 py-12">
+        {activeSessionId && (
+          <div className="border-accent/40 bg-accent/10 mb-6 flex flex-wrap items-center justify-between gap-4 rounded-xl border p-5">
+            <div>
+              <p className="text-accent text-xs font-semibold uppercase tracking-[0.2em]">
+                Session in progress
+              </p>
+              <p className="mt-1 text-sm">You have an interview room that hasn't ended yet.</p>
+            </div>
+            <Button
+              onClick={() =>
+                navigate({ to: "/session/$sessionId", params: { sessionId: activeSessionId } })
+              }
+            >
+              Rejoin session
+            </Button>
+          </div>
+        )}
+
         {profile && (
           <div className="surface-panel p-8">
             <p className="text-accent text-xs font-semibold uppercase tracking-[0.2em]">
