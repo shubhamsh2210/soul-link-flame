@@ -165,3 +165,17 @@ export async function applyNoShowOutcome(
     }
   }
 }
+
+/** Peer's display name for a session participant (profiles RLS is own-row only). */
+export async function loadPeerName(sessionId: string, userId: string) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const session = await loadSession(sessionId);
+  assertParticipant(session, userId);
+  const peerId = session.user_a_id === userId ? session.user_b_id : session.user_a_id;
+  const { data } = await supabaseAdmin
+    .from("profiles")
+    .select("display_name")
+    .eq("id", peerId)
+    .maybeSingle();
+  return data?.display_name ?? "your peer";
+}
